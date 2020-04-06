@@ -3,7 +3,11 @@ table {
   margin-bottom: 10px;
 }
 
-td {
+td, th {
   border: 1px solid black;
   padding: 3px;
+}
+
+td {
+  text-align: right;
 }

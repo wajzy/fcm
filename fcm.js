@@ -1,7 +1,7 @@
 let fcm = {
   lambda: 5,
   
-  tMax: 10,
+  tMax: 100,
   
   connMtx: [
     [0, 1, 1, -1, 1, -0.484304],
@@ -50,39 +50,61 @@ let fcm = {
   simulation: function() {
     let states = [this.t0];
     let currentState = this.t0;
-    for(let t=0; t<this.tMax; t++) {
+    let stable = false;
+    this.outcome.init(this.connMtx.length);
+    for(let t=0; !stable && t<this.tMax; t++) {
       currentState = this.threshold(this.mtxMul(this.connMtx, currentState));
       states.push(currentState);
+      this.outcome.refreshWindows(currentState);
+      stable = this.outcome.isStable();
     }
     return states;
+  },
+  
+  outcome: {
+    concepts: 0,
+    windowSize: 5,
+    windows: null,
+    stabilityLimit: 1e-13,
+    
+    init: function(concepts) {
+      this.concepts = concepts;
+      this.windows = [];
+      for(let i=0; i<this.concepts; i++) {
+        this.windows.push([]);
+      }
+    },
+  
+    refreshWindows: function(mtx) {
+      mtx.forEach((value, key) => {
+        let window = this.windows[key];
+        window.push(value[0]);
+        if(window.length > this.windowSize) {
+          window.shift();
+        }
+      });
+    },
+  
+    isStable: function() {
+      if(this.windows[0].length < this.windowSize) {
+        return false;
+      } else {
+        let allStable = true;
+        for(let i=0; allStable && i<this.windows.length; i++) {
+          let window = this.windows[i];
+          let sumSqr = 0;
+          let sum = 0;
+          window.forEach((value) => {
+            sumSqr += value*value;
+            sum += value;
+          });
+          let stdDev = (sumSqr - sum*sum/this.windowSize)/this.windowSize;
+          if(stdDev > this.stabilityLimit) {
+            allStable = false;
+          }
+        }
+        return allStable;
+      }
+    }
   }
 };
-
-function createTable(mtx, title) {
-  let table = document.createElement("table");
-  let caption = document.createElement("caption");
-  caption.textContent = title;
-  table.appendChild(caption);
-  for(let rowKey in mtx) {
-    let row = document.createElement("tr");
-    for(let colKey in mtx[rowKey]) {
-      let data = document.createElement("td");
-      data.textContent = (+mtx[rowKey][colKey]).toFixed(6);
-      row.appendChild(data);
-    }
-    table.appendChild(row);
-  }
-  return table;
-}
-
-window.addEventListener("load", function() {
-  document.body.appendChild(
-    createTable(fcm.connMtx, "Connection matrix")
-  );
-  document.body.appendChild(
-    createTable(fcm.t0, "Initial state")
-  );
-  document.body.appendChild(
-    createTable(fcm.simulation(), "Simulation results")
-  );
-}, false);
