@@ -1,6 +1,6 @@
 let gui = {
   // creates the DOM <table> node of a connection matrix
-  showConnMtx: function(mtx, title) {
+  createConnMtx: function(mtx, title) {
     let table = document.createElement("table");
     let caption = document.createElement("caption");
     caption.textContent = title;
@@ -30,7 +30,7 @@ let gui = {
   },
   
   // creates the DOM <table> node of an initial state
-  showInitialState: function(mtx, title) {
+  createInitialState: function(mtx, title) {
     let table = document.createElement("table");
     let caption = document.createElement("caption");
     caption.textContent = title;
@@ -51,7 +51,7 @@ let gui = {
   },
   
   // creates the DOM <table> node of simulation results (activation vector for all calculated time steps)
-  showSimulationResults: function(mtx, title) {
+  createSimulationResults: function(mtx, title) {
     let table = document.createElement("table");
     let caption = document.createElement("caption");
     caption.textContent = title;
@@ -79,18 +79,29 @@ let gui = {
       table.appendChild(row);
     });
     return table;
+  },
+  
+  // creates a DOM <p> node to display some text
+  createParagraph: function(text) {
+    let p = document.createElement("p");
+    p.textContent = text;
+    return p;
+  },
+  
+  // creates a <details> node and includes something in it.
+  // 'summary': short description
+  // 'details': the content to include
+  // 'open': the controller should be opened or closed
+  createSummary: function(summary, details, open) {
+    let d = document.createElement("details");
+    if(open) {
+      d.setAttribute("open", "open");
+    }
+    let s = document.createElement("summary");
+    s.textContent = summary;
+    d.appendChild(s);
+    d.appendChild(details);
+    return d;
   }
 
 };
-
-window.addEventListener("load", function() {
-  document.body.appendChild(
-    gui.showConnMtx(fcm.connMtx, "Connection matrix")
-  );
-  document.body.appendChild(
-    gui.showInitialState(fcm.t0, "Initial state")
-  );
-  document.body.appendChild(
-    gui.showSimulationResults(fcm.simulation(), "Simulation results")
-  );
-}, false);

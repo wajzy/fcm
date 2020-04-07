@@ -1,6 +1,6 @@
 let fcm = {
   lambda: 5, // steepness of threshold function
-  tMax: 100, // max. number of simulation time steps to calculate
+  tMax: 500, // max. number of simulation time steps to calculate
   
   // connection matrix
   connMtx: [ 
@@ -21,6 +21,14 @@ let fcm = {
     [0.1], 
     [0.1]
   ],
+  
+  // these member variables should be constants
+  FP: 0, // fixed-poin attractor
+  LC: 1, // limit cycle
+  CB: 2, // chaotic behavior
+  
+  simulationResult: null, // result of the last simulation
+  limitCycle: null, // state vectors of the limit cycle, if it is found
   
   // matrix multiplication
   mtxMul: function(left, right) {
@@ -53,17 +61,90 @@ let fcm = {
   // executes a simulation. Stops automatically before 'tMax' if 
   // the activation values of all concepts are considered stable.
   simulation: function() {
-    let states = [this.t0];
+    this.simulationResult = [this.t0];
     let currentState = this.t0;
     let stable = false;
     this.stability.init(this.connMtx.length);
     for(let t=0; !stable && t<this.tMax; t++) {
       currentState = this.threshold(this.mtxMul(this.connMtx, currentState));
-      states.push(currentState);
+      this.simulationResult.push(currentState);
       this.stability.refreshWindows(currentState);
       stable = this.stability.isStable();
     }
-    return states;
+  },
+  
+  // return the last simulation's complete time series data
+  getSimulationResult: function() {
+    return this.simulationResult;
+  },
+  
+  // returns the fixed-point attractor, if exists (last state vector of simulation data)
+  getFP: function() {
+    return this.simulationResult.slice(-1)[0];
+  },
+  
+  // returns the limit cycle, if exists (call findLC() first to look for it)
+  getLC: function() {
+    return this.limitCycle;
+  },
+  
+  // compares two arrays with a predetermined precision
+  isEqual: function(a1, a2) {
+    let n = Math.min(a1.length, a2.length);
+    let equal = true;
+    for(let i=0; equal && i<n; i++) {
+      if(Math.abs(a1[i]-a2[i]) > 1e-3) {
+        equal = false;
+      }
+    }
+    return equal;
+  },
+  
+  // searches for a limit cycle and stores it in the 'limitCycle' member if it is found
+  findLC: function() {
+    let lastState = this.simulationResult.slice(-1)[0][0];
+    let equalFound = false;
+    let seqEnd;
+    let lastPossible = Math.floor((this.simulationResult.length-1)/2);
+    for(seqEnd=this.simulationResult.length-2; seqEnd>=lastPossible && !equalFound;) {
+      if(this.isEqual(lastState, this.simulationResult[seqEnd][0])) {
+        equalFound = true;
+      } else {
+        seqEnd--;
+      }
+    }
+    if(equalFound) {
+      if(seqEnd == this.simulationResult.length-2) { // the last states are equal; it is a FP
+        this.limitCycle = null;
+      } else {
+        let cycle = true;
+        let i, j;
+        for(i=seqEnd-1, j=this.simulationResult.length-2; cycle && j>seqEnd; i--, j--) {
+          cycle = isEqual(this.simulationResult[i][0], this.simulationResult[j][0]);
+        }
+        if(cycle) {
+          this.limitCycle = this.simulationResult.slice(-(this.simulationResult.length-seqEnd-1));
+        } else { // even if there are two identical state vectors, other vectors between them are different
+          this.limitCycle = null;
+        }
+      }
+    } else { // all investigated state vectors are unique
+      this.limitCycle = null;
+    }
+  },
+
+  // tells simulation outcome, and returns a value according to FP, LC or CB
+  getOutcome: function() {
+    if(this.simulationResult.length < this.tMax+1) {
+      this.findLC();
+      if(this.limitCycle != null) {
+        return this.LC;
+      } else {
+        return this.FP;
+      }
+    } else {
+      return this.CB;
+    }
   },
   
   // detects the stability of concept states

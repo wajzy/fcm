@@ -1,3 +1,7 @@
+body {
+  hyphens: auto;
+}
+
 table {
   border-collapse: collapse;
   margin-bottom: 10px;
@@ -19,4 +23,8 @@ td {
 th {
   background-color: blue;
   color: white;
+}
+
+summary {
+  margin-bottom: 10px;
 }
