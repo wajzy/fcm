@@ -3,6 +3,10 @@ table {
   margin-bottom: 10px;
 }
 
+tr:nth-of-type(odd) {
+  background-color: lightgray;
+}
+
 td, th {
   border: 1px solid black;
   padding: 3px;
@@ -10,4 +14,9 @@ td, th {
 
 td {
   text-align: right;
+}
+
+th {
+  background-color: blue;
+  color: white;
 }

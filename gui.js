@@ -1,5 +1,5 @@
 let gui = {
-
+  // creates the DOM <table> node of a connection matrix
   showConnMtx: function(mtx, title) {
     let table = document.createElement("table");
     let caption = document.createElement("caption");
@@ -29,6 +29,7 @@ let gui = {
     return table;
   },
   
+  // creates the DOM <table> node of an initial state
   showInitialState: function(mtx, title) {
     let table = document.createElement("table");
     let caption = document.createElement("caption");
@@ -49,6 +50,7 @@ let gui = {
     return table;
   },
   
+  // creates the DOM <table> node of simulation results (activation vector for all calculated time steps)
   showSimulationResults: function(mtx, title) {
     let table = document.createElement("table");
     let caption = document.createElement("caption");
