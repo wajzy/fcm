@@ -52,25 +52,151 @@
               </tr>
             </tbody>
           </table>
-          <button id="new_model" type="button" class="btn btn-primary">Create new model</button>
+          <button id="new_model" type="button" class="btn btn-primary"><i class="fas fa-file"></i> Create new model</button>
         </form>
       </div>
       
-      <div id="concepts">
-        <h2>Concepts</h2>
+      <div id="concepts" style="display: none;">
+        <h2>Model &amp; concept properties</h2>
+        <h3 class="mt-5">Model properties</h3>
         <form>
           <div class="form-group row">
-            <label  class="col-md-2 col-form-label" for="model_name">Model name:</label>
-            <div class="col-md-10">
-              <input id="model_name"  class="form-control" type="text" placeholder="eg. Business analysis" />          
+            <label class="col-form-label col-lg-2" for="model_name">Model name:</label>
+            <div class="col-lg-5">
+              <input id="model_name" class="form-control" type="text" placeholder="eg. Business analysis" />
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="model_lambda">Default \( \lambda \):</label>
+            <div class="col-lg-2">
+              <input id="model_lambda" class="form-control" type="number" min="0" max="10" step="any" value="5" data-toggle="tooltip" title="General lambda value for all concepts, unless otherwise specified for particular concepts.">
+            </div>
+          </div>
+        </form>
+        <h3 class="mt-5">New Concept's Properties</h3>
+        <form>
+          <div class="form-group row">
+            <div class="col-lg-2">
+              <label class="col-form-label" for="concept_description">Description:</label>
+            </div>
+            <div class="col-lg-5">
+              <input id="concept_description" class="form-control" type="text" placeholder="eg. Number of customers" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-2 col-form-label" for="concept_lambda">Concept's \( \lambda \):</label>
+            <div class="col-lg-10">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="concept_use_default_lambda" checked="checked">
+                <label class="custom-control-label" for="concept_use_default_lambda">Uses model's default \( \lambda \) value</label>
+              </div>
+            </div>
+            <div class="offset-lg-2 col-lg-2">
+              <input id="concept_lambda" class="form-control" type="number" min="0" max="10" step="any" value="5" disabled="disabled" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-2 col-form-label" for="concept_lambda">Ticks:</label>
+            <div class="col-lg-2">
+              <input id="concept_lambda" class="form-control" type="text" value="n" data-toggle="tooltip" title="You can type here a simple expression to define when the concept should fire. n = in every step, 2n = in every second (even) time steps, 2n+1 = in every second (odd) time steps."/>
+            </div>
+          </div>
+          <button id="concept_add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Add new concept</button>
+        </form>
+        <h3 class="mt-5">List of already added concepts</h3>
+        <table id="models_table" class="table table-hover table-responsive">
+          <thead class="thead-light">
+            <tr>
+              <th>ID</th>
+              <th>Description</th>
+              <th>\( \lambda \)</th>
+              <th>Tick</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-middle">C1</td>
+              <td class="align-middle">Clients</td>
+              <td class="align-middle">5</td>
+              <td class="align-middle">n</td>
+              <td>
+                <button type="button" class="btn btn-primary my-1 mr-1" data-toggle="tooltip" title="Click here to edit the concept's properties."><i class="fas fa-edit"></i> Edit</button>
+                <button type="button" class="btn btn-danger my-1 mr-1" data-toggle="tooltip" title="Click here to delete this concept."><i class="fas fa-trash-alt"></i> Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle">C2</td>
+              <td class="align-middle">Rules &amp; regulations</td>
+              <td class="align-middle">5</td>
+              <td class="align-middle">n</td>
+              <td>
+                <button type="button" class="btn btn-primary my-1 mr-1" data-toggle="tooltip" title="Click here to edit the concept's properties."><i class="fas fa-edit"></i> Edit</button>
+                <button type="button" class="btn btn-danger my-1 mr-1" data-toggle="tooltip" title="Click here to delete this concept."><i class="fas fa-trash-alt"></i> Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle">C3</td>
+              <td class="align-middle">Funding</td>
+              <td class="align-middle">5</td>
+              <td class="align-middle">n</td>
+              <td>
+                <button type="button" class="btn btn-primary my-1 mr-1" data-toggle="tooltip" title="Click here to edit the concept's properties."><i class="fas fa-edit"></i> Edit</button>
+                <button type="button" class="btn btn-danger my-1 mr-1" data-toggle="tooltip" title="Click here to delete this concept."><i class="fas fa-trash-alt"></i> Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button id="new_model" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
+      </div>
+      
+      <div id="connections">
+        <h2>Model &amp; concept properties</h2>
+        <h3 class="mt-5">Connection matrix</h3>
+        <form>
+          <table id="models_table" class="table table-responsive">
+            <thead>
+              <tr>
+                <th colspan="2"></th>
+                <th class="text-center" colspan="3">Destinations</th>
+              </tr>
+              <tr>
+                <th colspan="2"></th>
+                <th class="text-center" scope="col">C1</th>
+                <th class="text-center" scope="col">C2</th>
+                <th class="text-center" scope="col">C3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th rowspan="3" scope="row" style="vertical-align: middle; writing-mode: vertical-lr; text-orientation: upright;">Sources</th>
+                <th class="align-middle" scope="row">C1</th>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+              </tr>
+              <tr>
+                <th class="align-middle" scope="row">C2</th>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+              </tr>
+              <tr>
+                <th class="align-middle" scope="row">C3</th>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+              </tr>
+            </tbody>
+          </table>
         </form>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
