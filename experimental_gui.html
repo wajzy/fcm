@@ -4,18 +4,20 @@
     <title>Fuzzy Cognitive Maps</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="experimental_gui.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/5e6bd4a2fc.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="experimental_gui.css" />
   </head>
   <body>
-    <div class="container-fluid pt-2">
+    <div class="container pt-2">
       <h1>Fuzzy Cognitive Maps</h1>
+      
       <div id="models" style="display: none;">
+      <!-- <div id="models"> -->
         <h2>Models</h2>
         <p id="no_models">You have no models yet. Please click on the <mark>Create new model</mark> button to create one.</p>
         <form>
-          <table id="models_table" class="table table-hover table-responsive">
+          <table id="models_table" class="table table-hover">
             <thead class="thead-light">
               <tr>
                 <th>Model</th>
@@ -57,12 +59,13 @@
       </div>
       
       <div id="concepts" style="display: none;">
+      <!-- <div id="concepts"> -->
         <h2>Model &amp; concept properties</h2>
         <h3 class="mt-5">Model properties</h3>
         <form>
           <div class="form-group row">
             <label class="col-form-label col-lg-2" for="model_name">Model name:</label>
-            <div class="col-lg-5">
+            <div class="col-lg-10">
               <input id="model_name" class="form-control" type="text" placeholder="eg. Business analysis" />
             </div>
           </div>
@@ -79,7 +82,7 @@
             <div class="col-lg-2">
               <label class="col-form-label" for="concept_description">Description:</label>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-10">
               <input id="concept_description" class="form-control" type="text" placeholder="eg. Number of customers" />
             </div>
           </div>
@@ -97,20 +100,20 @@
           </div>
           <div class="form-group row">
             <label class="col-lg-2 col-form-label" for="concept_lambda">Ticks:</label>
-            <div class="col-lg-2">
-              <input id="concept_lambda" class="form-control" type="text" value="n" data-toggle="tooltip" title="You can type here a simple expression to define when the concept should fire. n = in every step, 2n = in every second (even) time steps, 2n+1 = in every second (odd) time steps."/>
+            <div class="col-lg-4">
+              <input id="concept_ticks" class="form-control" type="text" value="n" data-toggle="tooltip" title="You can type here a simple expression to define when the concept should fire. n = in every step, 2n = in every second (even) time steps, 2n+1 = in every second (odd) time steps."/>
             </div>
           </div>
           <button id="concept_add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Add new concept</button>
         </form>
         <h3 class="mt-5">List of already added concepts</h3>
-        <table id="models_table" class="table table-hover table-responsive">
+        <table id="concepts_table" class="table table-hover">
           <thead class="thead-light">
             <tr>
               <th>ID</th>
               <th>Description</th>
               <th>\( \lambda \)</th>
-              <th>Tick</th>
+              <th>Ticks</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -147,14 +150,15 @@
             </tr>
           </tbody>
         </table>
-        <button id="new_model" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
+        <button id="concepts_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
-      <div id="connections">
+      <div id="connections" style="display: none;">
+      <!-- <div id="connections"> -->
         <h2>Model &amp; concept properties</h2>
         <h3 class="mt-5">Connection matrix</h3>
         <form>
-          <table id="models_table" class="table table-responsive">
+          <table id="matrix_table" class="table-fluid">
             <thead>
               <tr>
                 <th colspan="2"></th>
@@ -171,26 +175,117 @@
               <tr>
                 <th rowspan="3" scope="row" style="vertical-align: middle; writing-mode: vertical-lr; text-orientation: upright;">Sources</th>
                 <th class="align-middle" scope="row">C1</th>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
               </tr>
               <tr>
                 <th class="align-middle" scope="row">C2</th>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
               </tr>
               <tr>
                 <th class="align-middle" scope="row">C3</th>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
-                <td><input style="width: 80px" class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
+                <td><input class="form-control" type="number" min="-1" max="1" step="any" value="0" /></td>
               </tr>
             </tbody>
           </table>
         </form>
+        <button id="connections_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
+        <button id="connections_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
+      
+      <div id="inference">
+        <h2>Inference</h2>
+        <form>
+          <div class="form-group row">
+            <label class="col-lg-2 col-form-label" for="inference_rule">Inference rule:</label>
+            <div class="col-lg-10">
+              <select id="inference_rule" class="custom-select">
+                <option>Type I</option>
+                <option>Type II</option>
+                <option>Type III</option>
+                <option>Papageorgiou's</option>
+              </select>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="type1">\( A_{i}^{t+1} = f \left( \sum_{\substack{j=1\\j \ne i}}^{n} w_{ji}A_{j}^{t} \right) \)</div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="type2">\( A_{i}^{t+1} = f \left( k_1 A_i^t + k_2 \sum_{\substack{j=1\\j \ne i}}^{n} w_{ji}A_{j}^{t} \right) \)</div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="type3">\( A_{i}^{t+1} = f \left( w_{ii}A_i^t + \sum_{\substack{j=1\\j \ne i}}^{n} w_{ji}A_{j}^{t} \right) \)</div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="papageorgiou">\( A_{i}^{t+1} = f \left( (2A_i^t-1) + \sum_{\substack{j=1\\j \ne i}}^{n} w_{ji}\cdot(2A_j^t-1) \right) \)</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="k1">k<sub>1</sub>:</label>
+            <div class="col-lg-2">
+              <input id="k1" class="form-control" type="number" min="0" max="1" step="any" value="1" data-toggle="tooltip" title="Self-loop weight multiplier">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-lg-2" for="k2">k<sub>2</sub>:</label>
+            <div class="col-lg-2">
+              <input id="k2" class="form-control" type="number" min="0" max="1" step="any" value="1" data-toggle="tooltip" title="Weight multiplier of input connections">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-2 col-form-label" for="threshold_function">Threshold function:</label>
+            <div class="col-lg-10">
+              <select id="threshold_function" class="custom-select">
+                <option>Sigmoid</option>
+                <option>Hyperbolic tangent</option>
+                <option>Sign</option>
+                <option>Trivalent I</option>
+                <option>Trivalent II</option>
+              </select>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="sigmoid">\( f_{\textrm{sigmoid}}(x) = \frac{1}{1+e^{-\lambda x}} \)</div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="hyperbolic_tangent">\( f_{\textrm{ht}}(x) = tanh(\lambda x) = \frac{e^{\lambda x}-e^{-\lambda x}}{e^{\lambda x}+e^{-\lambda x}} \)</div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="sign">\( f_{\textrm{sign}}(x) = \left\{
+                \begin{array}{ll}
+                1, & x>0, \\
+                0, & x \leq 0 \\
+                \end{array}
+                \right. \)
+              </div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="trivalent1">\( f_{\textrm{trivalent1}}(x) = \left\{
+                \begin{array}{ll}
+                1, & x>0, \\
+                0, & x=0, \\
+                -1,& x&lt;0. \\
+                \end{array}
+                \right. \)</div>
+            </div>
+            <div class="offset-lg-2 col-lg-10 mt-2">
+              <div id="trivalent2">\( f_{\textrm{trivalent2}}(x) = \left\{
+                \begin{array}{ll}
+                1, & x \geq 0.5, \\
+                0, & -0.5 &lt; x &lt; 0.5, \\
+                -1,& x \leq -0.5. \\
+                \end{array}
+                \right. \)</div>
+            </div>
+          </div>
+        </form>
+        <button id="inference_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
+        <button id="inference_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
+      </div>
+      
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
