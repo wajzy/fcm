@@ -12,8 +12,10 @@
     <div class="container pt-2">
       <h1>Fuzzy Cognitive Maps</h1>
       
+<!--
       <div id="models" style="display: none;">
-      <!-- <div id="models"> -->
+-->
+      <div id="models"> 
         <h2>Models</h2>
         <p id="no_models">You have no models yet. Please click on the <mark>Create new model</mark> button to create one.</p>
         <form>
@@ -58,8 +60,10 @@
         </form>
       </div>
       
+<!--
       <div id="concepts" style="display: none;">
-      <!-- <div id="concepts"> -->
+-->
+      <div id="concepts"> 
         <h2>Model &amp; concept properties</h2>
         <h3 class="mt-5">Model properties</h3>
         <form>
@@ -153,8 +157,10 @@
         <button id="concepts_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
+<!--
       <div id="connections" style="display: none;">
-      <!-- <div id="connections"> -->
+-->
+      <div id="connections">
         <h2>Model &amp; concept properties</h2>
         <h3 class="mt-5">Connection matrix</h3>
         <form>
@@ -198,6 +204,9 @@
         <button id="connections_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
+<!--
+      <div id="inference" style="display: none;">
+-->
       <div id="inference">
         <h2>Inference</h2>
         <form>
@@ -284,6 +293,122 @@
         </form>
         <button id="inference_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
         <button id="inference_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
+      </div>
+      
+      <div id="simulation">
+        <h2>Simulation</h2>
+        <h3 class="mt-5">Initial concept states</h3>
+        <form>
+          <table id="initial_table" class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>ID</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="align-middle">C1</td>
+                <td class="align-middle">
+                  <input id="v1" class="form-control" type="number" min="0" max="1" step="any" value="0.5" data-toggle="tooltip" data-html="true" title="Initial state of C1. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
+                </td>
+              </tr>
+              <tr>
+                <td class="align-middle">C2</td>
+                <td class="align-middle">
+                  <input id="v2" class="form-control" type="number" min="0" max="1" step="any" value="0" data-toggle="tooltip" data-html="true" title="Initial state of C2. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
+                </td>
+              </tr>
+              <tr>
+                <td class="align-middle">C3</td>
+                <td class="align-middle">
+                  <input id="v3" class="form-control" type="number" min="0" max="1" step="any" value="1" data-toggle="tooltip" data-html="true" title="Initial state of C3. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <button id="add_scenario" type="button" class="btn btn-primary btn-block" data-toggle="tooltip" title="Adds a new scenario to the list with the above specified activation values."><i class="fas fa-plus"></i> Add new scenario</button>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <button id="generate_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Generates specific number of random scenarios to study the dynamic behavior of the model."><i class="fas fa-cog"></i> Generate random scenarios</button>
+            </div>
+            <div class="col-lg-2">
+              <input id="no_of_scenarios" class="form-control" type="number" min="1" max="100000" step="1" value="100" data-toggle="tooltip" title="Number of random scenarios to generate.">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <button id="coverage_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Generates scenarios systematically to study the dynamic behavior of the model."><i class="fas fa-cog"></i> Even coverage</button>
+            </div>
+            <div class="col-lg-2">
+              <input id="no_of_levels" class="form-control" type="number" min="2" max="100" step="1" value="5" data-toggle="tooltip" title="Number of activation levels.">
+            </div>
+          </div>
+          <table id="scenario_table" class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>Scenario</th>
+                <th>C1</th>
+                <th>C2</th>
+                <th>C3</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="align-middle">S1</td>
+                <td class="align-middle">0</td>
+                <td class="align-middle">0</td>
+                <td class="align-middle">0</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-primary my-1 mr-1" data-toggle="tooltip" title="Click here to edit this scenario."><i class="fas fa-edit"></i> Edit</button>
+                  <button type="button" class="btn btn-danger my-1 mr-1" data-toggle="tooltip" title="Click here to delete this scenario."><i class="fas fa-trash-alt"></i> Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="align-middle">S2</td>
+                <td class="align-middle">1</td>
+                <td class="align-middle">1</td>
+                <td class="align-middle">1</td>
+                <td class="align-middle">
+                  <button type="button" class="btn btn-primary my-1 mr-1" data-toggle="tooltip" title="Click here to edit this scenario."><i class="fas fa-edit"></i> Edit</button>
+                  <button type="button" class="btn btn-danger my-1 mr-1" data-toggle="tooltip" title="Click here to delete this scenario."><i class="fas fa-trash-alt"></i> Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <button id="save_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Saves the scenario list."><i class="fas fa-save"></i> Save</button>
+            </div>
+            <div class="col-lg-9">
+              <input id="list_title" class="form-control" type="text" placeholder="Enter list title" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-3 col-form-label" for="saved_scenarios">Saved scenarios:</label>
+            <div class="col-lg-9">
+              <select id="saved_scenarios" class="custom-select">
+                <option>Short list</option>
+                <option>Long list</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="offset-lg-3 col-lg-3">
+              <button id="load_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Loads the selected scenario."><i class="far fa-folder-open"></i> Load</button>
+            </div>
+            <div class="col-lg-3">
+              <button id="delete_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Deletes the selected scenario."><i class="far fa-trash-alt"></i> Delete</button>
+            </div>
+          </div>
+        </form>
+        <button id="simulation_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
+        <button id="simulation_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
     </div>
