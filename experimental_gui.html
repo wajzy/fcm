@@ -297,39 +297,41 @@
       
       <div id="simulation">
         <h2>Simulation</h2>
-        <h3 class="mt-5">Initial concept states</h3>
+        <h3 class="mt-5">Scenario definition</h3>
         <form>
-          <table id="initial_table" class="table table-hover">
-            <thead class="thead-light">
-              <tr>
-                <th>ID</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="align-middle">C1</td>
-                <td class="align-middle">
-                  <input id="v1" class="form-control" type="number" min="0" max="1" step="any" value="0.5" data-toggle="tooltip" data-html="true" title="Initial state of C1. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle">C2</td>
-                <td class="align-middle">
-                  <input id="v2" class="form-control" type="number" min="0" max="1" step="any" value="0" data-toggle="tooltip" data-html="true" title="Initial state of C2. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle">C3</td>
-                <td class="align-middle">
-                  <input id="v3" class="form-control" type="number" min="0" max="1" step="any" value="1" data-toggle="tooltip" data-html="true" title="Initial state of C3. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
-                </td>
-              </tr>
-            </tbody>
-          </table>
           <div class="form-group row">
             <div class="col-lg-3">
-              <button id="add_scenario" type="button" class="btn btn-primary btn-block" data-toggle="tooltip" title="Adds a new scenario to the list with the above specified activation values."><i class="fas fa-plus"></i> Add new scenario</button>
+              <button id="add_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Adds a new scenario to the list with the specified activation values."><i class="fas fa-plus"></i> Add new scenario</button>
+            </div>
+            <div class="col-lg-9">
+              <table id="initial_table" class="table table-hover">
+                <thead class="thead-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="align-middle">C1</td>
+                    <td class="align-middle">
+                      <input id="v1" class="form-control" type="number" min="0" max="1" step="any" value="0.5" data-toggle="tooltip" data-html="true" title="Initial state of C1. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle">C2</td>
+                    <td class="align-middle">
+                      <input id="v2" class="form-control" type="number" min="0" max="1" step="any" value="0" data-toggle="tooltip" data-html="true" title="Initial state of C2. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle">C3</td>
+                    <td class="align-middle">
+                      <input id="v3" class="form-control" type="number" min="0" max="1" step="any" value="1" data-toggle="tooltip" data-html="true" title="Initial state of C3. (A<sub>i</sub> &isin; [0, 1], depending on the chosen threshold function)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="form-group row">
@@ -348,6 +350,7 @@
               <input id="no_of_levels" class="form-control" type="number" min="2" max="100" step="1" value="5" data-toggle="tooltip" title="Number of activation levels.">
             </div>
           </div>
+          <h3 class="mt-5">List of defined scenarios</h3>
           <table id="scenario_table" class="table table-hover">
             <thead class="thead-light">
               <tr>
@@ -381,6 +384,7 @@
               </tr>
             </tbody>
           </table>
+          <h3 class="mt-5">Manage scenarios</h3>
           <div class="form-group row">
             <div class="col-lg-3">
               <button id="save_scenario" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Saves the scenario list."><i class="fas fa-save"></i> Save</button>
@@ -411,15 +415,147 @@
         <button id="simulation_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
+      <div id="results">
+        <h2>Results</h2>
+        <h3 class="mt-5">Summary</h3>
+        <table id="summary_table" class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-middle">Number of fixed-point attractors</td>
+              <td id="no_fp" class="align-middle">1 (100%)</td>
+            </tr>
+            <tr>
+              <td class="align-middle">Number of limit cycles</td>
+              <td id="no_lc" class="align-middle">0 (0%)</td>
+            </tr>
+            <tr>
+              <td class="align-middle">Number of chaotic behaviors</td>
+              <td id="no_cb" class="align-middle">0 (0%)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 class="mt-5">Fixed-point attractors</h3>
+        <table id="fp_table" class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>#FP</th>
+              <th>C1</th>
+              <th>C2</th>
+              <th>C3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-middle">1</td>
+              <td class="align-middle">0.12</td>
+              <td class="align-middle">0.36</td>
+              <td class="align-middle">0.99</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 class="mt-5">Limit cycles</h3>
+        <p>Limit cycles were not detected.</p>
+        <h3 class="mt-5">Chaotic behavior</h3>
+        <p>Chaotic behavior cases were not detected.</p>
+        <h3 class="mt-5">Details</h3>
+        <div class="form-group row">
+          <label class="col-lg-2 col-form-label" for="timeseries">Choose scenario:</label>
+          <div class="col-lg-10">
+            <select id="timeseries" class="custom-select">
+              <option>0.0, 0.0, 1.0</option>
+              <option>0.0, 1.0, 0.0</option>
+              <option>1.0, 0.0, 0.0</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <p class="col-lg-2">Outcome:</p>
+        <p class="col-lg-10">Fixed-point attractor (#1)</p>
+      </div>
+      <table id="simulation_table" class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>Time</th>
+            <th>C1</th>
+            <th>C2</th>
+            <th>C3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="align-middle">1</td>
+            <td class="align-middle">0.12</td>
+            <td class="align-middle">0.36</td>
+            <td class="align-middle">0.99</td>
+          </tr>
+          <tr>
+            <td class="align-middle">1</td>
+            <td class="align-middle">0.22</td>
+            <td class="align-middle">0.40</td>
+            <td class="align-middle">0.99</td>
+          </tr>
+          <tr>
+            <td class="align-middle">1</td>
+            <td class="align-middle">0.23</td>
+            <td class="align-middle">0.40</td>
+            <td class="align-middle">0.99</td>
+          </tr>
+        </tbody>
+      </table>
+      <canvas id="myChart" class="mb-3"></canvas>
+      <div class="form-group row">
+        <div class="col-lg-3">
+          <button id="export_simulation" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Exports simulation data in the specified file format."><i class="fas fa-file-export"></i> Export</button>
+        </div>
+        <div class="col-lg-4">
+          <select id="file_format" class="custom-select" data-toggle="tooltip" title="Select file format">
+            <option>Latex table (tex)</option>
+            <option>Microsoft Excel spreadsheet (xlsx)</option>
+            <option>Comma Separated Values (csv)</option>
+          </select>
+        </div>
+      </div>
+      <button id="results_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
+      <button id="results_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
     <script>
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+      });
+      
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: ['0', '1', '2', '3'],
+              datasets: [{
+                  label: 'C1',
+                  data: [0, 0.25, 0.45, 0.55],
+                  borderColor: 'rgb(255, 0, 0)',
+                  fill: false
+              },
+              {
+                  label: 'C2',
+                  data: [1, 0.66, 0.5, 0.45],
+                  borderColor: 'rgb(0, 0, 255)',
+                  fill: false
+              }]
+          },
+          options: {}
       });
     </script>
   </body>
