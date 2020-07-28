@@ -11,15 +11,12 @@
   <body>
     <div class="container pt-2">
       <h1>Fuzzy Cognitive Maps</h1>
-      
-<!--
-      <div id="models" style="display: none;">
--->
+
       <div id="models"> 
         <h2>Models</h2>
-        <p id="no_models">You have no models yet. Please click on the <mark>Create new model</mark> button to create one.</p>
+        <p id="modelsNone">You have no models yet. Please click on the <mark>Create new model</mark> button to create one.</p>
         <form>
-          <table id="models_table" class="table table-hover">
+          <table id="modelsTable" class="table table-hover">
             <thead class="thead-light">
               <tr>
                 <th>Model</th>
@@ -27,6 +24,7 @@
               </tr>
             </thead>
             <tbody>
+              <!--
               <tr>
                 <td class="align-middle">IWMS</td>
                 <td>
@@ -54,29 +52,34 @@
                   <button type="button" class="btn btn-primary my-1 mr-1" data-toggle="tooltip" title="Click here to reduce the size (number of concepts and connections) of the model with minimal loss of information and behavioral change." disabled="disabled"><i class="fas fa-microscope"></i> Reduce</button>
                 </td>
               </tr>
+              -->
             </tbody>
           </table>
-          <button id="new_model" type="button" class="btn btn-primary"><i class="fas fa-file"></i> Create new model</button>
+          <button id="modelNew" type="button" class="btn btn-primary"><i class="fas fa-file"></i> Create new model</button>
         </form>
       </div>
       
-<!--
-      <div id="concepts" style="display: none;">
--->
-      <div id="concepts"> 
+      <div id="concepts">
         <h2>Model &amp; concept properties</h2>
         <h3 class="mt-5">Model properties</h3>
         <form>
           <div class="form-group row">
             <label class="col-form-label col-lg-2" for="model_name">Model name:</label>
             <div class="col-lg-10">
-              <input id="model_name" class="form-control" type="text" placeholder="eg. Business analysis" />
+              <input id="conceptsModelName" class="form-control" type="text" placeholder="eg. Business analysis" required="required" aria-describedby="conceptsModelNameHelpBlock" />
+              <small id="conceptsModelNameHelpBlock" class="form-text text-muted">You have to specify a unique model name.</small>
+            </div>
+          </div>
+          <div class="form-group row mb-0">
+            <label class="col-form-label col-lg-2" for="model_lambda">Default \( \lambda \):</label>
+            <div class="col-lg-2">
+              <input id="conceptsLambda" class="form-control" type="number" min="0" max="10" step="any" value="5" data-toggle="tooltip" title="The general lambda value for all concepts, unless otherwise specified for particular concepts." aria-describedby="conceptsLambdaHelpBlock">
+              <div id="conceptsLambdaInvalid" class="invalid-feedback">\( \lambda \) must be positive.</div>
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-form-label col-lg-2" for="model_lambda">Default \( \lambda \):</label>
-            <div class="col-lg-2">
-              <input id="model_lambda" class="form-control" type="number" min="0" max="10" step="any" value="5" data-toggle="tooltip" title="General lambda value for all concepts, unless otherwise specified for particular concepts.">
+            <div class="offset-lg-2 col-lg-10">
+              <small id="conceptsLambdaHelpBlock" class="form-text text-muted">\( \lambda \) is the steepness of sigmoid and hyperbolic tangent threshold functions. The usual value is 5. It's value must be greater than 0 and at most 10. Low values eventuates a linear function-like behavior, high values makes the behavior of these functions similar to the step function.</small>
             </div>
           </div>
         </form>
@@ -154,12 +157,9 @@
             </tr>
           </tbody>
         </table>
-        <button id="concepts_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
+        <button id="conceptsNext" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
-<!--
-      <div id="connections" style="display: none;">
--->
       <div id="connections">
         <h2>Model &amp; concept properties</h2>
         <h3 class="mt-5">Connection matrix</h3>
@@ -204,9 +204,6 @@
         <button id="connections_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
       
-<!--
-      <div id="inference" style="display: none;">
--->
       <div id="inference">
         <h2>Inference</h2>
         <form>
@@ -474,56 +471,56 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <p class="col-lg-2">Outcome:</p>
-        <p class="col-lg-10">Fixed-point attractor (#1)</p>
-      </div>
-      <table id="simulation_table" class="table table-hover">
-        <thead class="thead-light">
-          <tr>
-            <th>Time</th>
-            <th>C1</th>
-            <th>C2</th>
-            <th>C3</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">0.12</td>
-            <td class="align-middle">0.36</td>
-            <td class="align-middle">0.99</td>
-          </tr>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">0.22</td>
-            <td class="align-middle">0.40</td>
-            <td class="align-middle">0.99</td>
-          </tr>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">0.23</td>
-            <td class="align-middle">0.40</td>
-            <td class="align-middle">0.99</td>
-          </tr>
-        </tbody>
-      </table>
-      <canvas id="myChart" class="mb-3"></canvas>
-      <div class="form-group row">
-        <div class="col-lg-3">
-          <button id="export_simulation" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Exports simulation data in the specified file format."><i class="fas fa-file-export"></i> Export</button>
+        <div class="form-group row">
+          <p class="col-lg-2">Outcome:</p>
+          <p class="col-lg-10">Fixed-point attractor (#1)</p>
         </div>
-        <div class="col-lg-4">
-          <select id="file_format" class="custom-select" data-toggle="tooltip" title="Select file format">
-            <option>Latex table (tex)</option>
-            <option>Microsoft Excel spreadsheet (xlsx)</option>
-            <option>Comma Separated Values (csv)</option>
-          </select>
+        <table id="simulation_table" class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>Time</th>
+              <th>C1</th>
+              <th>C2</th>
+              <th>C3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-middle">1</td>
+              <td class="align-middle">0.12</td>
+              <td class="align-middle">0.36</td>
+              <td class="align-middle">0.99</td>
+            </tr>
+            <tr>
+              <td class="align-middle">1</td>
+              <td class="align-middle">0.22</td>
+              <td class="align-middle">0.40</td>
+              <td class="align-middle">0.99</td>
+            </tr>
+            <tr>
+              <td class="align-middle">1</td>
+              <td class="align-middle">0.23</td>
+              <td class="align-middle">0.40</td>
+              <td class="align-middle">0.99</td>
+            </tr>
+          </tbody>
+        </table>
+        <canvas id="myChart" class="mb-3"></canvas>
+        <div class="form-group row">
+          <div class="col-lg-3">
+            <button id="export_simulation" type="button" class="btn btn-primary btn-block mb-1" data-toggle="tooltip" title="Exports simulation data in the specified file format."><i class="fas fa-file-export"></i> Export</button>
+          </div>
+          <div class="col-lg-4">
+            <select id="file_format" class="custom-select" data-toggle="tooltip" title="Select file format">
+              <option>Latex table (tex)</option>
+              <option>Microsoft Excel spreadsheet (xlsx)</option>
+              <option>Comma Separated Values (csv)</option>
+            </select>
+          </div>
         </div>
+        <button id="results_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
+        <button id="results_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
       </div>
-      <button id="results_back" type="button" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Back</button>
-      <button id="results_next" type="button" class="btn btn-primary">Next <i class="fas fa-angle-double-right"></i></button>
 
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -532,31 +529,6 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
-    <script>
-      $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-      
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-              labels: ['0', '1', '2', '3'],
-              datasets: [{
-                  label: 'C1',
-                  data: [0, 0.25, 0.45, 0.55],
-                  borderColor: 'rgb(255, 0, 0)',
-                  fill: false
-              },
-              {
-                  label: 'C2',
-                  data: [1, 0.66, 0.5, 0.45],
-                  borderColor: 'rgb(0, 0, 255)',
-                  fill: false
-              }]
-          },
-          options: {}
-      });
-    </script>
+    <script src="experimental_gui.js"></script>
   </body>
 </html>

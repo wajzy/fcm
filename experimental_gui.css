@@ -1,3 +1,8 @@
 td input[type="number"] {
   min-width: 70px;
 }
+
+#modelsTable, #concepts, #connections, 
+#inference, #simulation, #results {
+  display: none;
+}
